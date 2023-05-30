@@ -1,0 +1,854 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CPSC431 Homework 3 App</title>
+    <style>
+        button {
+            cursor: pointer;
+            /* background-color: green; */
+            background: rgb(231,222,255);
+            background: linear-gradient(90deg, rgba(231,222,255,1) 0%, rgba(133,210,127,1) 75%, rgba(170,208,243,1) 100%);
+            color: white;
+            border-radius:30em;
+            height: 30px;
+            border-color: rgba(231,222,255,1);
+            /* font-weight: 5px; */
+            font-weight: bold ;
+        }
+
+        body {
+			margin: 0;
+			padding: 0;
+		}
+
+        .session {
+            margin: 0 20px;
+        }
+		.top-header {
+			/* background-color: #003366; */
+            background: rgb(106,204,119);
+            background: linear-gradient(90deg, rgba(62, 210, 148, 0.971) 0%, rgba(190,243,170,0.9458377100840336) 35%, rgb(255, 253, 225) 100%);
+			color: #ffffff;
+			height: 60px;
+			width: 100%;
+			position: fixed;
+			top: 0;
+			left: 0;
+            padding-bottom: 20px;
+            border-bottom: 100px;
+		}
+
+        .top_gap {
+            margin-top: 100px;
+        }
+
+        input[type=text] {
+            width: 20%;
+            padding: 6.5px 5px;   /*top left */
+            margin: 2px 3px;
+            box-sizing: border-box;
+            border: 2px solid rgb(170, 160, 196);
+            border-radius: 4px;
+            }
+
+        h2 {
+            color:rgb(247, 218, 71);
+            text-shadow: 2px 2px 3px  rgba(206,232,229,1) ;
+        } 
+        
+        P  {
+            color: rgb(29, 54, 155);
+        }
+
+
+        /* placeholder color it does not work */
+        ::placeholder {
+        color: gray;
+        opacity: 0.5; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: gray;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+        color: gray;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <header class = "top-header">
+        <h1>CPSC431-01 Homework 3 App</h1>
+    </header>
+    <main class="top_gap session" >
+        <session>
+            <div> 
+                <!-- <p >
+                    Description Here
+                </p> -->
+            </div>
+       </session>
+
+            <!-- Here are 2 starter sections. Add more based on the functional requirements-->
+        <section>
+            <h2>1. Find a Student</h2>  <!-- #1 GET input:cwid -->
+
+            <form id="getOneStudentForm">
+               <input type="text" name="cwid" value="CWID" maxlength="5">   <!-- name is for js access the data -->
+                <button type="button" data-action="getOneStudent" data-form="getOneStudentForm">Go!</button> <!--action need to coresponding to function name-->
+            </form>
+            <div id="oneStudentData">
+            </div>
+        </section>
+
+        <section>
+            <h2> 2. Display All Student Inforamtion : </h2> <!-- #2 GET input:N/A-->
+            <button type="button" data-action="getAllStudent" data-form="getAllStudent"> Get All Student's Name & Cwid !</button>
+
+            <div id="getAllStudent">
+            </div>
+
+        </section>
+
+        <section>
+            <h2>3. Create a Student </h2> <!-- #3 POST input:name -->
+
+            <form id="postNameForm">
+                <input type="text" name="name" value="NAME" maxlength="255">
+                <button type="button" data-action="postName" data-form="postNameForm"> Post Your Name </button> <!--action need to coresponding to function name-->
+            </form>
+
+        </section>
+
+        <section>
+            <h2>4.Change Name by CWID </h2> <!-- #4 PUT input:cwid and name -->
+
+            <form id="changeNameCWID">
+                <input type="text" name="name" value="name" maxlength="255">  <!--value="NAME" Before-->
+                <input type="text" name="cwid" value="CWID" maxlength="5">   <!--name="CWID"Before  WRONG. attribute name is important!!!-->
+                <button type="button" data-action="changeNameCWID" data-form="changeNameCWID"> Change Name by CWID</button> <!--action need to coresponding to function name-->
+            </form>
+
+        </section>
+        
+
+        <section>
+            <h2>5. Delete a student </h2> <!-- #5 DELETE input:cwid -->
+
+            <form id="deleteAstudent">
+                <input type="text" name="cwid" value="CWID" maxlength="5"> <!--name="CWID"Before  WRONG. attribute name is important!!!-->
+                <button type="button" data-action="deleteAstudent" data-form="deleteAstudent"> Delete a Student</button> <!--action need to coresponding to function name-->
+            </form>
+        </section>
+
+
+        <!-- getStudentGrades -->
+        <section>
+            <form id="getStudentGradeForm"> 
+                <h2>6. Get a Grade</h2> <!-- #6 GET input: cwid and hwid -->
+                <input type="text" name="cwid" value="CWID" maxlength="5">
+                <input type="text" name="hw" value="hwid" maxlength="5">  <!-- value of name attributes really important !!! -->
+                <button type="button" data-action="getStudentGrade" data-form="getStudentGradeForm"> Get a Grade by CWID & hwid </button>
+          
+                <!-- value matches JSON hw1, hw2,hw3,hw4 -->
+                <!-- <select name="hwid" id="hw">
+                    <option name="hw" value="hw1">HW 01 </option>  
+                    <option name="hw" value="hw2">HW 02 </option>
+                    <option name="hw" value="hw3">HW 03 </option>
+                    <option name="hw" value="hw4">HW 04 </option>
+                </select>  -->
+
+            </form>
+            <div id="getStudentGrades"> 
+            </div>
+
+        </section>
+
+        <!-- update a Student Grades #77777777777777777777777777777-->
+        <section>
+            <form id="updateGradeForm">
+                <h2>7. Update a Grade</h2> <!-- #7 PUT input: cwid and hwid and grade -->
+                <input type="text" name="cwid" value="CWID" maxlength="5">
+                <input type="text" name="hwid" value="hw#" maxlength="5"> <!-- value of name attributes really important !!! name="hwid"-->
+                <input type="text" name="grade" value="grade" maxlength="5"> <!-- value of name attributes really important !!!   name="grade"  -->
+    
+                <button type="button" data-action="updateGrade" data-form="updateGrade"> Update a Grade </button>
+             </form>
+        </section>
+
+        <section> 
+            <h2>8. Reset Data Button </h2> <!-- #8 GET input:N/A -->
+
+            <form id="resetData">
+                <button type="button" data-action="resetData" data-form="resetData"> ** Reset Data ** </button> <!--action need to coresponding to function name-->
+                <br> <br>
+            </form>
+
+            <div id="resetDataDiv">   
+            </div>
+
+        </section>
+
+    </main>
+    <script>
+
+        // Function to actually change what's on the screen
+        function postResult(data) {
+            /* 
+                Provide the data and then use this function to display it somehow
+                on the screen. You can select the "TestResults" div and change its
+                .innerHTML property or you can make use of .insertAdjascentHTML
+                to insert HTML templates in or around it. 
+
+                https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
+
+                https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+            */   
+      
+            //     document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",ul);
+            document.getElementById("resetDataDiv").innerHTML = " ";
+           // document.getElementById("output").innerHTML = "";
+            var div = document.getElementById("resetDataDiv");
+            div.style.fontSize = '20px';
+            document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student Name: </strong> ${data.name}</p>`); // Wrapping Data in a Different Way in PHP
+            document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student CWID: </strong> ${data.cwid}</p>`);
+    }
+
+    //Display Nothing for delete a name 
+    function displayNothing(obj){
+        document.getElementById("resetDataDiv").innerHTML = " ";
+        //var div = document.getElementById("resetDataDiv");
+        //document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>You delete student CWID: </strong> ${obj.cwid}</p>`);
+    }
+    
+
+    // Post A new Grade for #7
+    function displayGetaGrade(obj)
+    {
+        document.getElementById("resetDataDiv").innerHTML = " ";
+        var div = document.getElementById("resetDataDiv");
+        div.style.fontSize = '20px';
+
+        div.style.backgroundColor = 'rgba(251,241,214,1)';
+
+        //document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student Name: </strong> ${data.name}</p>`); // Wrapping Data in a Different Way in PHP
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Home Work Nums: </strong> ${obj.hwid}</p>`);
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Grade for this HW: </strong> ${obj.grade}</p>`);
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student CWID: </strong> ${obj.cwid}</p>`);
+      
+    }
+
+    
+    // Display "Get a Grade" for #6
+    function displayUpdateGrade(obj)
+    {
+        document.getElementById("resetDataDiv").innerHTML = " ";
+        var div = document.getElementById("resetDataDiv");
+        div.style.fontSize = '20px';
+        //document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student Name: </strong> ${data.name}</p>`); // Wrapping Data in a Different Way in PHP
+
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Grade: </strong> ${obj.grade}</p>`);
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Home Work #: </strong> ${obj.hwid}</p>`);
+        document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<p><strong>Student CWID: </strong> ${obj.cwid}</p>`);
+    }
+            
+            
+
+    function postOneStudentResult(data) {  
+
+        const copyItem = [];
+
+    }
+
+
+    // function postOneStudentFunc(data) {
+    //     document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<h6><strong>Name: </strong> ${data.name}</h6>`);
+    //     document.querySelector("#resetDataDiv").insertAdjacentHTML("afterbegin",`<h6><strong>CWID: </strong> ${data.cwid}</h6>`);
+    //     // get the <div> tag
+    //     const container = document.querySelector('#resetDataDiv');
+
+    //     // loop throygh "grades" object 
+    //     Object.keys(data.grades).forEach(key => {
+    //         //Display in console.log()
+    //         console.log(`${key}: ${data.grades[key]}`);
+
+    //         //Display "grades" object in web page
+    //         const p = document.createElement('p');
+    //         p.textContent = `${key}: ${data.grades[key]}`;
+    //         container.appendChild(p);
+    //     });
+    // }
+         
+
+    // Get integer array from data object array  
+    // data object array ----> integer array
+    function integerScoreArr(data) {  
+        console.log("Integer Score Arr Function  ");
+                let gpa = 0;
+                let sum = 0;
+                let gpaTwod = 0;
+                const num = Object.keys(data.grades).length-1;  // Count Object's Length WHY IT DID NOT GET TOTAL NUMBER?
+                const copyItem = [];
+                var numberItems = []; 
+
+                // work. Push "grades' value" into copyItem[] array 
+                copyItem.push(data.grades.hw1);
+                copyItem.push(data.grades.hw2);
+                copyItem.push(data.grades.hw3);
+                copyItem.push(data.grades.hw4);
+
+                //Display "grades' value" on webpage by looping through copyItem[] array 
+                for (let i=0; i < 4; ++i) {
+                
+                    let number = copyItem[i];
+                    let n = Number(number);
+                
+                    //console.log(Number(copyItem[i]));
+                    console.log("Num n:");
+                    console.log(n);
+                    numberItems.push(n);
+                }
+
+                for (let i=0; i<4; i++)
+                {
+                    sum = sum + numberItems[i];
+                    console.log("sum:");
+
+                    console.log(sum);
+                }
+
+                console.log("sum from integer array ");
+                console.log(sum);
+            
+                gpa = sum / 4; 
+                gpaTwod = gpa.toFixed(1);
+                console.log("gpa:");
+                console.log(gpaTwod);
+
+                return numberItems;
+        }
+
+
+
+       // Display percentage and letter grade from an array 
+       // Score integer array, letter grade array ---> avoid 
+       function postOneStudentResult (numArr, arrLG)  // postOneStudentResult()
+       {
+            // Display letter grade
+            var num = arrLG.length  ;
+
+            // Cleaning previous output first 
+            for (let i=0; i < num; i++) {
+                let hwNum = i + 1;
+                var temp ; 
+                let numTemp = 0;
+                let strTemp = "";
+                var strArrary = [];
+
+                console.log("Your letter grade is " + numArr[i].toFixed(0) + "%" + " " + arrLG[i]) ;
+
+                var lastDiv = document.getElementById("resetDataDiv"); // Display percentage and letter grades
+                var pElement = document.createElement("p");
+                // const keyName = Object.keys(data.grades); // Access object's key name 
+                // Display Letter Grade
+                pElement.textContent = "The percentage grade of HomeWork " +  hwNum + ":    " + numArr[i].toFixed(0) + "%        " + "     " + arrLG[i] ;   // no (), can be a function 
+                    
+                //giving content of <p> color % font size
+                pElement.style.color = 'rgb(0,165,254)'; // lightBlue
+                pElement.style.fontSize = '20px';
+
+                lastDiv.appendChild(pElement);
+            }
+       }
+
+
+       function displayPercGrade(gpaTwod) // DELETE
+        {
+            var lastDiv = document.getElementById("resetDataDiv");
+            var pElement = document.createElement("p");
+            var myText = document.createTextNode("Average grade is:" + gpaTwod + "%"); // inside () can be a function
+            pElement.appendChild(myText);
+            lastDiv.appendChild(pElement);
+
+            // Way 2 to make it work 
+            // var lastDiv = document.getElementById("resetDataDiv");
+            // var pElement = document.createElement("p");
+            // pElement.textContent = "Average score is: " + gpa ;   // no (), can be a function 
+            // lastDiv.appendChild(pElement);
+        }
+
+        // Calculate average score 
+        // data object array ----> integer
+        function aerageScore(data) {  
+            let gpa = 0;
+            let sum = 0;
+            let gpaTwod = 0;
+            const num = Object.keys(data.grades).length-1;  // Count Object's Length WHY IT DID NOT GET TOTAL NUMBER?
+            const copyItem = [];
+            var numberItems = []; 
+
+            // work. Push "grades' value" into copyItem[] array 
+            copyItem.push(data.grades.hw1);
+            copyItem.push(data.grades.hw2);
+            copyItem.push(data.grades.hw3);
+            copyItem.push(data.grades.hw4);
+
+            //Display "grades' value" on webpage by looping through copyItem[] array 
+            for (let i=0; i < 4; ++i) {
+               
+                let number = copyItem[i];
+                sum = sum + Number(number);
+                //console.log(Number(copyItem[i]));
+                numberItems.push(number);
+                console.log(sum);
+               
+            }
+            console.log("sum");
+            console.log(sum);
+            console.log("Num:");
+            console.log(num);
+
+            // Calculating average score, keep 1 decimal using toFixed()
+            gpa = sum / 4; 
+           // gpaTwod = gpa.toFixed(3);
+            console.log("gpa:");
+            console.log(gpa);
+
+            // return the average score
+            return gpa;
+       }
+
+
+    // This function calculate the GPA basing on 4 scale
+    // integer ---> decimal number with 2 decimal 
+    function calGap (average){
+        let gap = 0;
+        gap = average / 100 * 4 ;
+        return gap.toFixed(2);
+    }
+
+    // Display average score in "%" format
+    // integer ---> void
+    function displayPercGrade(gpaTwod)
+    {
+        //let aver= gpaTwod.toFixed(1);
+        let gpa = calGap(gpaTwod);
+        let aver= Number(gpaTwod).toFixed(1);
+
+        var lastDiv = document.getElementById("resetDataDiv"); // Display average score and GPA
+        var pElement = document.createElement("p");
+        var myText = document.createTextNode("Average score : " + aver + "%"  + " |       GPA : " + gpa); // inside () can be a function
+
+        //giving content of <p> color % font size
+        pElement.style.color = 'rgb(254,164,0)'; //Orange
+        pElement.style.fontSize = '20px';
+
+        pElement.appendChild(myText);
+        lastDiv.appendChild(pElement);
+
+        // Way 2 to make it work 
+        // var lastDiv = document.getElementById("resetDataDiv");
+        // var pElement = document.createElement("p");
+        // pElement.textContent = "Average score is: " + gpa ;   // no (), can be a function 
+        // lastDiv.appendChild(pElement);
+    }
+
+
+        // Calculate Letter Grade put them into an array 
+        // data object array ---> void 
+        function letterGrade (data)
+        {
+           // let percentage = 85;
+            let arr = [];
+            let copyItem = []; 
+            const num = Object.keys(data.grades).length;  // Count Object's Length
+            let letterGrade;
+
+            copyItem.push(data.grades.hw1);
+            copyItem.push(data.grades.hw2);
+            copyItem.push(data.grades.hw3);
+            copyItem.push(data.grades.hw4);
+
+            for (let i=0; i < num; i++) {
+
+                let percentage = copyItem[i];
+
+                switch (true) {
+                case percentage >= 89.5:
+                    letterGrade = "A";
+                    break;
+                case percentage >= 79.5:
+                    letterGrade = "B";
+                    break;
+                case percentage >= 69.5:
+                    letterGrade = "C";
+                    break;
+                case percentage >= 59.5:
+                    letterGrade = "D";
+                    break;
+                case percentage <= 59.4:
+                    letterGrade = "F";
+                    break;
+                default:
+                    letterGrade = "Please enter a number.";
+                }
+
+                arr.push(letterGrade);
+            }
+
+            return arr; 
+       }
+
+
+        function postAllStudentFunc(data) {  
+            // Get the <div> in original HTML to append by "id" 
+            const outputData = document.getElementById("resetDataDiv");
+
+            //Get rid of previous output 
+            document.getElementById("resetDataDiv").innerHTML = ""; 
+
+            data.items.forEach(person => {   //data.items[i]
+            // Create a new div element 
+            const div = document.createElement("div");
+            // Create a new P element for name
+            const nameElem = document.createElement("P");
+            // Create a new P element for CWID
+            const cwidElem = document.createElement("P");
+
+            // Adding name and cwid value to <p> tag
+            nameElem.textContent =  person.cwid + "  " + person.name ;
+            //nameElem.style.wordSpacing = "10px";
+            nameElem.setAttribute("style", "word-spacing: 5px");
+
+            console.log(person.name);
+            //cwidElem.textContent = person.cwid;
+            console.log(person.cwid);
+
+            //age.textContent = `Grades: ${person.age.hw1}`;
+
+            // Appending name, cwid p tag to div 
+            div.appendChild(nameElem);
+            // div.appendChild(cwidElem);
+
+            // Appending div to original file's div 
+            outputData.appendChild(div);
+        
+        });
+    }
+
+
+        // Post Student's Name and Cwid
+        function postNameCwid(data) {
+
+            // var lastDiv = document.getElementById("resetDataDiv");
+            // var pElement = document.createElement("p");
+            // var myText = document.createTextNode("Student Name : " + aver + "%"  + " |       GPA : " + gpa); // inside () can be a function
+
+            // Way 2 to make it work 
+            var lastDiv = document.getElementById("resetDataDiv");
+            var pElement = document.createElement("p");
+            //Clean previous data
+            lastDiv.innerHTML = " ";
+            pElement.textContent = "You updata the student name: " + data.name + "     CWID:  " + data.cwid  ;   // no (), can be a function 
+            
+            
+            //lastDiv.appendChild(pElement);
+
+            //giving content of <p> color % font size
+            pElement.style.color = 'rgb(254,164,0)'; //Orange
+            pElement.style.fontSize = '20px';
+
+           // pElement.appendChild(myText);
+            lastDiv.appendChild(pElement);
+        }
+
+
+//******************** Wrapping Data from Form into an JSON Object *********************************************
+        // Give this the "id" value of any HTML form and it will return
+        // a native JavaScript object with all the form inputs. 
+        function getFormData(formId) {
+            const form = document.querySelector(`#${formId}`);
+
+            const formData = new FormData(form);
+
+            const entries = Object.fromEntries(formData.entries());
+
+            return entries;
+        }
+
+
+//******************** Fetch data from API and Encode ****************************************************
+        // You can ignore this, only the _dataString() function uses it for conversion. 
+        function _encode(data) {
+            if (!data) return "";
+            return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k])).join('&');
+        }
+
+        // This is essential to turn our FormData object into a formUrlEncoded string wrapped in an object. 
+        function _dataString(data) {
+            let jsonData = JSON.stringify(data); // convert data to JSON
+            return _encode({
+                json: jsonData
+            });
+        }
+
+
+        // This code does our actual fetch HTTP request.   // *** WE SHOULD REWRITE THIS FUNCTION, RIGHT? 
+        async function getJsonResult(url, method, data) {
+
+            // url will be a string like 'api/student' or 'api/student.php?id=12345'
+            // method will be 1 of these strings: 'GET', 'POST', 'PUT', 'DELETE'
+            // data is the native JavaScript object we made from the form data
+
+            // This will get you started but you'll need to fix this code to make it really work. 
+            options = {};   // option object, something we feed into Fetch.  we got url and options in line 95,    Fetch de data object  
+            options.method = method;
+            options.headers = { "content-Type": "application/x-www-form-urlencoded" };
+            // options.headers = { "content-Type": "application/json" };
+
+            if (method != "GET")  // *** I ADD IF ELSE TO SAPERATE "GET" AND "POST"
+            {
+                  options.body = _dataString(data); // WARNING, THIS WON'T WORK FOR GET REQUESTS! Need If/Else
+            }
+
+            const request = await fetch(url, options); // WARNING: We need to use await here  // *** I ADD AWAIT TO GET DATA BACK FROM API
+            //fetch() is predefined function to let JS talking to PHP, and trigger php GET, POST, PUT, DELETE function 
+
+            const response = await request.json(); // WARNING: we need await AND we need to actualy do something with this JSON data
+            // return JS object 
+
+            return response; // What should we return instead?  // I CHANGE TRUE TO RESPONSE, RESPONSE IS JSON DATA
+        }
+
+
+
+//******************* Functions for Buttons ***************************************************
+        // Object to hold our various async functions to send/receive data
+        const actions = {};
+
+        // ==================   #1 FIND ONE STUDENTS BY CWID  ================== GOOD
+        actions.getOneStudent = async () => {
+
+           // alert("Get one student data");
+           let averageScore = 0;
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("getOneStudentForm");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Get Student CWID from form data
+            const CWID = formData.cwid;
+
+            // 3. Create HTTP GET request via fetch() to 'api/student?id={CWID}'—use await!
+            //const newRUL = "api/student?id=" + String(CWID);
+            const oneStudentData = await getJsonResult(`api/student?id=${CWID}`, "GET", " ") ;
+            //api/student.php/?cwid={CWID}
+
+            //****** Cleaning Previous output ******
+            document.getElementById("resetDataDiv").innerHTML = "";
+            // 4. Do something with result (maybe use postResult();)
+            console.log(oneStudentData);
+
+            // Display Student Name and CWID
+            postResult(oneStudentData);
+           // postOneStudentResult(oneStudentData);
+
+    //postOneStudentFunc(oneStudentData);
+
+            //Calculate a average score
+            averageScore =aerageScore(oneStudentData);
+            //Display average score in "95.2% formate in the webpage
+            displayPercGrade(averageScore);
+
+
+            // Get Letter Grades array 
+            var letterG = [];
+            letterG = letterGrade(oneStudentData);
+            // Display letter grade
+//displayLetterGrade(letterG); 
+
+            // // testing function 
+            // integerScoreArr(oneStudentData);
+            // // Display function 
+            // let arr =  integerScoreArr(oneStudentData);
+            // displayArr(arr);
+
+            // Get the number array
+            let numArray = integerScoreArr(oneStudentData);
+            postOneStudentResult (numArray, letterG);
+
+        };
+
+
+                    
+        // Add more with the same syntax: actions.yourFunction = ()=>{}; (use async for async functions)
+        // ==================   #2 FIND ALL STUDENTS  ================== GOOD 
+        actions.getAllStudent = async () => {
+
+                // FETCH JSON DATA FROM THE API
+                const allStudentData = await getJsonResult("api/student.php", "GET", " ") ;   //return JS object 
+                //C:\xampp\htdocs\CPSC431-01\CPSC431-01\LinJiu\_HW3\api
+
+                // document.querySelector("allStudentInfo").innerHTML = allStudentData; 
+                // DISPLAY JSON DATA TO CONSOLE
+                console.log(allStudentData); 
+                
+                //postResult(allStudentData);
+                postAllStudentFunc(allStudentData);
+        };
+
+
+        // ==================   #3 POST/CREATE A STUDENT  ================== GOOD 
+        actions.postName = async () => {
+
+            //alert("Post a name ");
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("postNameForm");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Get Student NAME from form data
+            //const NAME = formData.name;
+
+            // 3. Create HTTP GET request via fetch() to 'api/student?id={CWID}'—use await!
+            const oneStudentData = await getJsonResult("api/student", "POST", formData) ;
+
+            // 4. Do something with result (maybe use postResult();)
+            console.log(oneStudentData); 
+            postResult(oneStudentData);
+        };
+
+
+        // ==================   #4 UPDATA ONE STUDENTS  ================== GOOD
+        // Simple function to get 1 student's data
+        actions.changeNameCWID  = async () => {
+
+            //alert("Change name by CWID");
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("changeNameCWID");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Get Student CWID from form data
+            //formData has all object info, already in one a whole package 
+            // const newCwid = formData.cwid;
+            // const newName = formData.name;
+
+            // 3. Create HTTP GET request via fetch() to 'api/student?id={CWID}'—use await!
+            const oneStudentData = await getJsonResult("api/student", "PUT", formData) ;
+
+            // 4. Do something with result (maybe use postResult();)
+            console.log(oneStudentData);
+            postNameCwid(oneStudentData);
+        };
+
+
+
+        // ==================   #5 Delete a student  ================== ISSUE MIGHT BE RIGHT, PHP DO NOT WRITE IT TO DELETE RECORD
+        actions.deleteAstudent  = async () => {
+
+            //alert("Delete a student");
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("deleteAstudent");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Get Student CWID from form data
+            const CWID = formData.cwid;
+
+            // 3. Create HTTP GET request via fetch() to 'api/student?id={CWID}'—use await!
+            const oneStudentData = await getJsonResult(`api/student/?id=${CWID}`, "DELETE", formData) ;   // IT IS "id" from back-end!!!, not "cwid" WRONG!!
+
+            // 4. Do something with result (maybe use postResult();)
+            console.log(oneStudentData);
+            displayNothing(oneStudentData);
+            // postResult(oneStudentData);
+        };
+
+
+
+        // ==================   #6 GET A GRADE BY the STUDENT CWID  ==================
+        actions.getStudentGrade = async () => {  
+
+            alert("Get a student' one grade");
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("getStudentGradeForm");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Get Student CWID from form data
+            const CWID = formData.cwid;
+
+            //froEach loop ? 
+            const hwidInput = formData.hw;  // hwid not from form input value and name attributes , not back-end also ? 
+
+            // 3. Create HTTP GET request via fetch() to 'api/student?id={CWID}'—use await!
+            //const newRUL = "api/student?id=" + String(CWID);
+            const  aGrade = await getJsonResult(`api/grade?id=${CWID}&hwid=${hwidInput}`, "GET", "") ; // hwid is from back-end, hwname is from Form input name attribute 
+
+            // const gradeFromDB = studentGrades.grades.hw1;
+            //api/student.php/?cwid={CWID}
+
+            // 4. Do something with result (maybe use postResult();)
+            console.log(aGrade);
+            displayUpdateGrade(aGrade);
+            
+        };
+
+
+            
+        // ==================   #7 PUT A NEW GRADE FOR a STUDENT BY the STUDENT CWID // method: PUT ==================
+        actions.updateGrade = async () => {  
+            alert("update a student grades");
+
+            // 1.  Get form data as JavaScript object
+            const formData =  getFormData("updateGradeForm");  // FORMDATA IS AN JSON "OBJECT"
+
+            // 2. Create HTTP PUT request via fetch() to 'api/grade'—use await! to change a grade
+            // const  aNewGrade = await getJsonResult(`api/grade?id=${cwid}&hwid=${hwid}&pct=${grade}`, "PUT", formData) ; 
+            const  aNewGrade = await getJsonResult("api/grade", "PUT", formData) ; 
+            //`api/grade?cwid=${formData.cwid}&hwid=${formData.hwid}&pct=${formData.grade}`  THIS WAY ALSO WORK, WHY ? 
+
+            // 3. Do something with result (maybe use postResult();)
+            console.log(aNewGrade);
+            displayGetaGrade(aNewGrade);
+        };
+
+
+        // ==================   #8 RESET DATA  ==================  GOOD 
+        //1. Access button from form' data by data-action = "resetData" 
+        actions.resetData = async () => {
+
+            alert("Reset Data");
+            // Access button from form' data by id = "resetData" No need to access button from form 
+            const formData =  getFormData("resetData");  // GET BUTTON FROM FORM id = "resetData"
+
+            // 2. Create HTTP GET request via fetch() to 'api/reset'—use await!
+            const backUpData = await getJsonResult("api/reset", "GET", " ") ;
+
+            // 3. Do something with result (maybe use postResult();)
+            console.log(backUpData); 
+            displayNothing(backUpData);
+            
+        };
+
+
+        // EventListener
+        // Here's our click handler, it runs on ANY click but will only invoke one of our 
+        // actions if the thing we clicked on has a "data-action" attribute and its value is
+        // the name of a property of the actions object. 
+        document.body.addEventListener("click", (e) => {
+
+            // 1. get the value of the clicked item's "data-action" attribute
+            const eventSource = e.target;
+            const action = eventSource.dataset.action;
+             
+            if (actions[action]) {
+            // IF actoin EXIST WE WANT TO GET THE FUNCTION OF THE BUTTON
+
+            // 2. Use the string to invoke the correct function with array[syntax]
+             actions[action]?.();
+        }
+
+    });
+
+        
+         </script>
+
+    </body>
+
+</html>

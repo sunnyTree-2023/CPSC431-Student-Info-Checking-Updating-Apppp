@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Bob Anderson",
+        "cwid": 12345,
+        "grades": {
+            "hw1": 80,
+            "hw2": 99,
+            "hw3": 99,
+            "hw4": 98
+        }
+    },
+    {
+        "name": "Sally Brighton",
+        "cwid": 12346,
+        "grades": {
+            "hw1": 45,
+            "hw2": 77,
+            "hw3": 68,
+            "hw4": 82
+        }
+    },
+    {
+        "name": "Juanita Cardenes",
+        "cwid": 12347,
+        "grades": {
+            "hw1": 99,
+            "hw2": 88,
+            "hw3": 77,
+            "hw4": 66
+        }
+    },
+    {
+        "name": "Nguyen Davis",
+        "cwid": 12348,
+        "grades": {
+            "hw1": 100,
+            "hw2": 100,
+            "hw3": 50,
+            "hw4": 50
+        }
+    },
+    {
+        "name": "Ram Edwin",
+        "cwid": 12349,
+        "grades": {
+            "hw1": 85,
+            "hw2": 85,
+            "hw3": 85,
+            "hw4": 20
+        }
+    }
+]
